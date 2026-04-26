@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { LayoutDashboard, LogIn, Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "./ui/button";
+import { useAuth } from "@/hooks/useAuth";
 
 const links = [
   { to: "/", label: "Accueil" },
@@ -14,6 +15,7 @@ const links = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -45,9 +47,24 @@ export function Header() {
               {l.label}
             </Link>
           ))}
-          <Button variant="default" size="sm" asChild>
-            <Link to="/contact">Prendre rendez-vous</Link>
-          </Button>
+          {user ? (
+            <Button variant="default" size="sm" asChild>
+              <Link to="/dashboard"><LayoutDashboard className="mr-1" /> Mon espace</Link>
+            </Button>
+          ) : (
+            <>
+              <Link
+                to="/auth"
+                search={{ mode: "signin" }}
+                className="text-sm font-medium text-foreground/80 transition-smooth hover:text-primary"
+              >
+                Connexion
+              </Link>
+              <Button variant="gold" size="sm" asChild>
+                <Link to="/auth" search={{ mode: "signup" }}><LogIn className="mr-1" /> S'inscrire</Link>
+              </Button>
+            </>
+          )}
         </nav>
 
         <button
@@ -74,8 +91,12 @@ export function Header() {
                 {l.label}
               </Link>
             ))}
-            <Button asChild className="mt-2">
-              <Link to="/contact" onClick={() => setOpen(false)}>Prendre rendez-vous</Link>
+            <Button asChild className="mt-2" variant="gold">
+              {user ? (
+                <Link to="/dashboard" onClick={() => setOpen(false)}>Mon espace</Link>
+              ) : (
+                <Link to="/auth" search={{ mode: "signup" }} onClick={() => setOpen(false)}>S'inscrire</Link>
+              )}
             </Button>
           </nav>
         </div>
