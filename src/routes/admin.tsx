@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { CalendarDays, Loader2, Package, ShieldAlert, Users } from "lucide-react";
+import { useEffect } from "react";
+import { Loader2, ShieldAlert } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,7 +9,7 @@ import { useUserRole } from "@/hooks/useUserRole";
 import { AdminClients } from "@/components/admin/AdminClients";
 import { AdminServices } from "@/components/admin/AdminServices";
 import { AdminAppointments } from "@/components/admin/AdminAppointments";
-import { supabase } from "@/integrations/supabase/client";
+import { AdminStats } from "@/components/admin/AdminStats";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
