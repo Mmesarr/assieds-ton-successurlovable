@@ -9,6 +9,7 @@ import { useUserRole } from "@/hooks/useUserRole";
 const links = [
   { to: "/", label: "Accueil" },
   { to: "/services", label: "Services" },
+  { to: "/tarifs", label: "Tarifs" },
   { to: "/a-propos", label: "À propos" },
   { to: "/contact", label: "Contact" },
 ] as const;
