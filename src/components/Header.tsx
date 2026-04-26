@@ -17,6 +17,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
+  const { isAdmin } = useUserRole();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -49,9 +50,16 @@ export function Header() {
             </Link>
           ))}
           {user ? (
-            <Button variant="default" size="sm" asChild>
-              <Link to="/dashboard"><LayoutDashboard className="mr-1" /> Mon espace</Link>
-            </Button>
+            <>
+              {isAdmin && (
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/admin"><Shield className="mr-1" /> Admin</Link>
+                </Button>
+              )}
+              <Button variant="default" size="sm" asChild>
+                <Link to="/dashboard"><LayoutDashboard className="mr-1" /> Mon espace</Link>
+              </Button>
+            </>
           ) : (
             <>
               <Link
