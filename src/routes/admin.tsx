@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { CalendarDays, Loader2, Package, ShieldAlert, Users } from "lucide-react";
+import { useEffect } from "react";
+import { Loader2, ShieldAlert } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,7 +9,7 @@ import { useUserRole } from "@/hooks/useUserRole";
 import { AdminClients } from "@/components/admin/AdminClients";
 import { AdminServices } from "@/components/admin/AdminServices";
 import { AdminAppointments } from "@/components/admin/AdminAppointments";
-import { supabase } from "@/integrations/supabase/client";
+import { AdminStats } from "@/components/admin/AdminStats";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -22,13 +22,10 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-type Counts = { clients: number; services: number; appointments: number; pending: number };
-
 function AdminPage() {
   const { user, loading: authLoading } = useAuth();
   const { isAdmin, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
-  const [counts, setCounts] = useState<Counts>({ clients: 0, services: 0, appointments: 0, pending: 0 });
 
   const loading = authLoading || roleLoading;
 
@@ -38,24 +35,6 @@ function AdminPage() {
       navigate({ to: "/auth", search: { mode: "signin", redirect: "/admin" } });
     }
   }, [loading, user, navigate]);
-
-  useEffect(() => {
-    if (!isAdmin) return;
-    (async () => {
-      const [c, s, a, p] = await Promise.all([
-        supabase.from("profiles").select("id", { count: "exact", head: true }),
-        supabase.from("services").select("id", { count: "exact", head: true }),
-        supabase.from("appointments").select("id", { count: "exact", head: true }),
-        supabase.from("appointments").select("id", { count: "exact", head: true }).eq("status", "pending"),
-      ]);
-      setCounts({
-        clients: c.count ?? 0,
-        services: s.count ?? 0,
-        appointments: a.count ?? 0,
-        pending: p.count ?? 0,
-      });
-    })();
-  }, [isAdmin]);
 
   if (loading || !user) {
     return (
@@ -94,25 +73,24 @@ function AdminPage() {
           <h1 className="mt-2 font-display text-3xl font-bold md:text-4xl">
             Tableau de <span className="text-gradient-gold">bord</span>
           </h1>
-          <p className="mt-2 text-sm text-primary-foreground/70">Gérez vos clients, services et rendez-vous.</p>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Stat icon={Users} label="Clients" value={counts.clients} />
-            <Stat icon={Package} label="Services" value={counts.services} />
-            <Stat icon={CalendarDays} label="Rendez-vous" value={counts.appointments} />
-            <Stat icon={CalendarDays} label="En attente" value={counts.pending} highlight />
-          </div>
+          <p className="mt-2 text-sm text-primary-foreground/70">
+            Vue d'ensemble, clients, services et rendez-vous.
+          </p>
         </div>
       </section>
 
       <section className="py-12">
         <div className="mx-auto max-w-7xl px-6">
-          <Tabs defaultValue="appointments" className="w-full">
-            <TabsList className="mb-6 grid w-full grid-cols-3 sm:max-w-md">
+          <Tabs defaultValue="stats" className="w-full">
+            <TabsList className="mb-6 grid w-full grid-cols-2 sm:grid-cols-4 sm:max-w-2xl">
+              <TabsTrigger value="stats">Statistiques</TabsTrigger>
               <TabsTrigger value="appointments">Rendez-vous</TabsTrigger>
               <TabsTrigger value="clients">Clients</TabsTrigger>
               <TabsTrigger value="services">Services</TabsTrigger>
             </TabsList>
+            <TabsContent value="stats">
+              <AdminStats />
+            </TabsContent>
             <TabsContent value="appointments">
               <AdminAppointments />
             </TabsContent>
@@ -126,33 +104,5 @@ function AdminPage() {
         </div>
       </section>
     </SiteLayout>
-  );
-}
-
-function Stat({
-  icon: Icon,
-  label,
-  value,
-  highlight,
-}: {
-  icon: React.ElementType;
-  label: string;
-  value: number;
-  highlight?: boolean;
-}) {
-  return (
-    <div
-      className={`flex items-center gap-4 rounded-2xl border p-5 backdrop-blur ${
-        highlight ? "border-gold/40 bg-gold/10" : "border-white/10 bg-white/5"
-      }`}
-    >
-      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-gold text-primary shadow-gold">
-        <Icon className="h-5 w-5" />
-      </div>
-      <div>
-        <p className="text-xs uppercase tracking-wider text-primary-foreground/60">{label}</p>
-        <p className="font-display text-2xl font-bold">{value}</p>
-      </div>
-    </div>
   );
 }
