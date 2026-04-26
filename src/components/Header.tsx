@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { LayoutDashboard, LogIn, Menu, X } from "lucide-react";
+import { LayoutDashboard, LogIn, Menu, Shield, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "./ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserRole } from "@/hooks/useUserRole";
 
 const links = [
   { to: "/", label: "Accueil" },
@@ -16,6 +17,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
+  const { isAdmin } = useUserRole();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -48,9 +50,16 @@ export function Header() {
             </Link>
           ))}
           {user ? (
-            <Button variant="default" size="sm" asChild>
-              <Link to="/dashboard"><LayoutDashboard className="mr-1" /> Mon espace</Link>
-            </Button>
+            <>
+              {isAdmin && (
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/admin"><Shield className="mr-1" /> Admin</Link>
+                </Button>
+              )}
+              <Button variant="default" size="sm" asChild>
+                <Link to="/dashboard"><LayoutDashboard className="mr-1" /> Mon espace</Link>
+              </Button>
+            </>
           ) : (
             <>
               <Link
