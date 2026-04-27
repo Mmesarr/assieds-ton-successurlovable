@@ -6,12 +6,19 @@ import {
   Check,
   FileText,
   GraduationCap,
+  HelpCircle,
   Languages,
   MessageCircle,
   Sparkles,
   TrendingUp,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/tarifs")({
@@ -48,6 +55,49 @@ type PricingCategory = {
   items: PriceItem[];
   badge?: string;
 };
+
+const faqs: { question: string; answer: string }[] = [
+  {
+    question: "Quels modes de paiement acceptez-vous ?",
+    answer:
+      "Nous acceptons les paiements via Wave, Orange Money, Free Money, virement bancaire et espèces à nos bureaux. Un acompte de 50% est demandé à la réservation, le solde étant réglé avant la livraison de la prestation.",
+  },
+  {
+    question: "Proposez-vous des facilités de paiement ?",
+    answer:
+      "Oui. Pour les prestations supérieures à 50 000 FCFA, nous proposons un paiement échelonné en 2 ou 3 fois sans frais. Des tarifs dégressifs sont également disponibles pour les groupes, entreprises et organisations.",
+  },
+  {
+    question: "Quels sont les délais de réalisation d'un business plan ?",
+    answer:
+      "Un business plan complet est livré entre 7 et 14 jours ouvrés selon la complexité du projet. Une première version intermédiaire vous est présentée à mi-parcours pour validation et ajustements éventuels.",
+  },
+  {
+    question: "Comment se déroule la réservation d'une séance ?",
+    answer:
+      "Vous pouvez réserver directement depuis votre espace client après inscription, ou via le formulaire de contact. Nous vous confirmons le créneau sous 24h. Une séance découverte gratuite de 30 minutes est offerte avant tout engagement.",
+  },
+  {
+    question: "Que se passe-t-il en cas d'annulation ou de report ?",
+    answer:
+      "Toute annulation ou report doit être signalé au moins 48h à l'avance pour être gratuit. Passé ce délai, 30% du montant est retenu. En cas d'empêchement de notre part, la séance est intégralement reportée ou remboursée, au choix du client.",
+  },
+  {
+    question: "Les formations sont-elles certifiantes ?",
+    answer:
+      "Oui. À l'issue de chaque formation (entrepreneuriat, développement personnel, éducation financière), une attestation de participation officielle vous est remise. Les formations se déroulent en groupe de 20 personnes maximum pour garantir la qualité.",
+  },
+  {
+    question: "Les cours d'anglais en ligne sont-ils flexibles ?",
+    answer:
+      "Absolument. Les horaires sont définis avec vous selon vos disponibilités. Vous pouvez réserver vos heures à l'avance ou opter pour un forfait mensuel. Les cours individuels offrent un suivi totalement personnalisé.",
+  },
+  {
+    question: "Puis-je obtenir un devis pour un programme sur mesure ?",
+    answer:
+      "Oui, pour le renforcement de capacité ou tout accompagnement spécifique aux entreprises et organisations, nous établissons un devis personnalisé gratuit après une première rencontre de cadrage.",
+  },
+];
 
 const categories: PricingCategory[] = [
   {
@@ -142,6 +192,59 @@ function PricingPage() {
               <PricingCard key={cat.title} category={cat} />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-secondary/40 py-20">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="text-center">
+            <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-gold text-primary shadow-gold">
+              <HelpCircle className="h-6 w-6" />
+            </div>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+              Questions fréquentes
+            </p>
+            <h2 className="font-display text-3xl font-bold md:text-4xl">
+              Tout ce qu'il faut <span className="text-gradient-gold">savoir</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              Paiement, délais, réservation, remplacements — retrouvez ici les réponses
+              aux questions que l'on nous pose le plus souvent.
+            </p>
+          </div>
+
+          <div className="mt-10 rounded-3xl border border-border bg-card p-2 shadow-card md:p-4">
+            <Accordion type="single" collapsible className="w-full">
+              {faqs.map((faq, index) => (
+                <AccordionItem
+                  key={faq.question}
+                  value={`item-${index}`}
+                  className="border-border px-4 last:border-b-0 md:px-6"
+                >
+                  <AccordionTrigger className="py-5 text-left font-display text-base font-semibold hover:no-underline md:text-lg">
+                    <span className="flex items-start gap-3">
+                      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gold/15 text-xs font-bold text-gold">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span>{faq.question}</span>
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-5 pl-10 pr-2 text-sm leading-relaxed text-muted-foreground md:text-base">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+
+          <p className="mt-8 text-center text-sm text-muted-foreground">
+            Une autre question ?{" "}
+            <Link to="/contact" className="font-semibold text-gold hover:underline">
+              Contactez-nous
+            </Link>
+            , nous répondons sous 24h.
+          </p>
         </div>
       </section>
 
