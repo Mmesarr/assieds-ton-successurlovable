@@ -4,11 +4,13 @@ import {
   Brain,
   Briefcase,
   Check,
+  Download,
   FileText,
   GraduationCap,
   HelpCircle,
   Languages,
   MessageCircle,
+  ShieldCheck,
   Sparkles,
   TrendingUp,
 } from "lucide-react";
@@ -182,6 +184,23 @@ function PricingPage() {
             <Badge icon={Check}>Devis personnalisé gratuit</Badge>
             <Badge icon={Check}>Paiement sécurisé</Badge>
           </div>
+          <div className="mt-6 flex justify-center">
+            <Button
+              asChild
+              variant="outlineLight"
+              size="sm"
+              className="border-gold/40 bg-gold/5 backdrop-blur-sm hover:bg-gold/15"
+            >
+              <a
+                href="/conditions-generales.pdf"
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Download /> Télécharger les conditions (PDF)
+              </a>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -294,15 +313,41 @@ function PricingPage() {
         </div>
       </section>
 
-      {/* Note */}
+      {/* Note + Conditions */}
       <section className="py-12">
-        <div className="mx-auto max-w-3xl px-6">
+        <div className="mx-auto max-w-3xl space-y-4 px-6">
           <div className="rounded-2xl border border-border bg-card p-6 text-center text-sm text-muted-foreground shadow-card">
             <p>
               💡 Les tarifs affichés sont en <strong className="text-foreground">Francs CFA (FCFA)</strong> et
               s'entendent par séance ou prestation. Des facilités de paiement et tarifs
               dégressifs sont disponibles pour les groupes et entreprises.
             </p>
+          </div>
+
+          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-gold/30 bg-gradient-to-r from-gold/10 via-gold/5 to-transparent p-6 shadow-card sm:flex-row sm:text-left">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-gold text-primary shadow-gold">
+                <ShieldCheck className="h-6 w-6" />
+              </div>
+              <div>
+                <p className="font-display text-base font-bold text-foreground">
+                  Conditions générales
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Règlement complet : paiement, délais, annulation et report.
+                </p>
+              </div>
+            </div>
+            <Button asChild variant="gold" size="sm" className="shrink-0">
+              <a
+                href="/conditions-generales.pdf"
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Download /> Télécharger le PDF
+              </a>
+            </Button>
           </div>
         </div>
       </section>
