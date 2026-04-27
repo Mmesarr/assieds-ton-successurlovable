@@ -82,7 +82,7 @@ export function QuickBookingForm() {
       toast.info("Connectez-vous pour réserver", {
         description: "Créez un compte ou connectez-vous en quelques secondes.",
       });
-      navigate({ to: "/auth", search: { mode: "login" } as never });
+      navigate({ to: "/auth", search: { mode: "signin" } });
       return;
     }
 

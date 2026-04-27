@@ -12,6 +12,7 @@ import {
   Sparkles,
   TrendingUp,
 } from "lucide-react";
+import { QuickBookingForm } from "@/components/QuickBookingForm";
 import { SiteLayout } from "@/components/SiteLayout";
 import {
   Accordion,
