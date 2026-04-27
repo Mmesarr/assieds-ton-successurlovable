@@ -196,6 +196,25 @@ function PricingPage() {
         </div>
       </section>
 
+      {/* Quick Booking */}
+      <section className="border-y border-border bg-gradient-to-b from-secondary/30 to-background py-20">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="mb-8 text-center">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold">
+              Prise de rendez-vous express
+            </p>
+            <h2 className="font-display text-3xl font-bold md:text-4xl">
+              Réservez votre <span className="text-gradient-gold">créneau</span> maintenant
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              Pas besoin de longs échanges. Choisissez votre service, votre date et
+              votre heure — nous confirmons sous 24h.
+            </p>
+          </div>
+          <QuickBookingForm />
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="bg-secondary/40 py-20">
         <div className="mx-auto max-w-4xl px-6">
