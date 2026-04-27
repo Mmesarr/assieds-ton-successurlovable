@@ -4,11 +4,13 @@ import {
   Brain,
   Briefcase,
   Check,
+  Download,
   FileText,
   GraduationCap,
   HelpCircle,
   Languages,
   MessageCircle,
+  ShieldCheck,
   Sparkles,
   TrendingUp,
 } from "lucide-react";
@@ -181,6 +183,23 @@ function PricingPage() {
             <Badge icon={Check}>Sans frais cachés</Badge>
             <Badge icon={Check}>Devis personnalisé gratuit</Badge>
             <Badge icon={Check}>Paiement sécurisé</Badge>
+          </div>
+          <div className="mt-6 flex justify-center">
+            <Button
+              asChild
+              variant="outlineLight"
+              size="sm"
+              className="border-gold/40 bg-gold/5 backdrop-blur-sm hover:bg-gold/15"
+            >
+              <a
+                href="/conditions-generales.pdf"
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Download /> Télécharger les conditions (PDF)
+              </a>
+            </Button>
           </div>
         </div>
       </section>
